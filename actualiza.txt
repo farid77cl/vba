@@ -1,0 +1,28 @@
+import git
+import os
+from datetime import datetime
+
+# Ruta de tu repositorio local en Windows
+repo_dir = r"C:\Users\fabara\repo"  # Cambia esto a la ruta de tu repositorio
+
+# Inicializa el repositorio local
+repo = git.Repo(repo_dir)
+
+def subir_actualizacion(mensaje="Actualización automática"):
+    try:
+        # Añade todos los cambios en el repositorio
+        repo.git.add(all=True)
+
+        # Realiza un commit con el mensaje y la fecha
+        fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        repo.index.commit(f"{mensaje} - {fecha_actual}")
+
+        # Realiza el push a la rama principal
+        origin = repo.remote(name="origin")
+        origin.push()
+        print("Actualización subida a GitHub con éxito.")
+    except Exception as e:
+        print(f"Error al subir a GitHub: {e}")
+
+# Ejecuta la función para subir cambios
+subir_actualizacion("Automatización de cambios")
